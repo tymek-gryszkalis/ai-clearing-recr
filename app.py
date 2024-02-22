@@ -10,10 +10,14 @@ class Car(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     make = db.Column(db.String(30), nullable = False)
     model = db.Column(db.String(30), nullable = False)
-    rate = db.Column(db.Integer)
 
     def __repr__(self):
         return f"{self.make} {self.model}"
+    
+class Rate(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    value = db.Column(db.Integer)
+    carId = db.Column(db.Integer, db.ForeignKey("car.id"))
 
 @app.route("/cars", methods = ["GET", "POST"])
 def index():
