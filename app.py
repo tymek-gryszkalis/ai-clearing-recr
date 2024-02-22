@@ -33,3 +33,9 @@ def index():
         db.session.add(newCar)
         db.session.commit()
         return {id : newCar.id}
+    elif request.method == "GET":
+        cars = Car.query.all()
+        output = []
+        for car in cars:
+            output.append({"make" : car.make, "model" : car.model})
+        return {"cars" : output}
