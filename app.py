@@ -43,4 +43,14 @@ def cars():
         for car in cars:
             output.append({"make" : car.make, "model" : car.model})
         return {"cars" : output}
-
+    
+@app.route("/rate", methods = ["POST"])
+def rate():
+    value = request.json["value"]
+    carId = request.json["id"]
+    Car.query.get_or_404(carId)
+    newRate = Rate(value = value, carId = carId)
+    db.session.add(newRate)
+    db.session.commit()
+    return {"id" : newRate.id}
+    
