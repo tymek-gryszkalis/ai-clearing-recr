@@ -1,5 +1,6 @@
-from flask import Flask
+from flask import Flask, request, abort
 from flask_sqlalchemy import SQLAlchemy
+import requests, json
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
@@ -14,6 +15,21 @@ class Car(db.Model):
     def __repr__(self):
         return f"{self.make} {self.model}"
 
-@app.route("/")
+@app.route("/cars", methods = ["GET", "POST"])
 def index():
-    return "Hello world!"
+    if request.method == "POST":
+        make = request.json["make"]
+        model = request.json["model"]
+        url = f'https://vpic.nhtsa.dot.gov/api/vehicles/GetModelsForMake/{make}?format=json';
+        r = requests.get(url)
+        modelExists = False
+        for i in r.json()["Results"]:
+            if i["Model_Name"] == model:
+                modelExists = True
+                break
+        if not modelExists:
+            abort(404)
+        newCar = Car(make = make, model = model)
+        db.session.add(newCar)
+        db.session.commit()
+        return {id : newCar.id}
