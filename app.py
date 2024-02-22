@@ -1,5 +1,6 @@
 from flask import Flask, request, abort
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import text
 import requests, json
 
 app = Flask(__name__)
@@ -53,4 +54,9 @@ def rate():
     db.session.add(newRate)
     db.session.commit()
     return {"id" : newRate.id}
-    
+
+@app.route("/popular", methods = ["GET"])
+def popular():
+    sql = text("SELECT carId, COUNT(*) FROM rate GROUP BY carId LIMIT 1")
+    r = db.session.execute(sql).first()
+    return {"carId" : r[0], "numberOfRates" : r[1]}
