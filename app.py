@@ -20,7 +20,7 @@ class Rate(db.Model):
     carId = db.Column(db.Integer, db.ForeignKey("car.id"))
 
 @app.route("/cars", methods = ["GET", "POST"])
-def index():
+def cars():
     if request.method == "POST":
         make = request.json["make"]
         model = request.json["model"]
@@ -36,10 +36,11 @@ def index():
         newCar = Car(make = make, model = model)
         db.session.add(newCar)
         db.session.commit()
-        return {id : newCar.id}
+        return {"id" : newCar.id}
     elif request.method == "GET":
         cars = Car.query.all()
         output = []
         for car in cars:
             output.append({"make" : car.make, "model" : car.model})
         return {"cars" : output}
+
