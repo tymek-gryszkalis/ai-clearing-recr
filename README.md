@@ -1,5 +1,5 @@
 # Recruitment task for AI Clearing
-Python implemented REST API handling a car database. Made as a part of recruitment process for the Python Developer Intern position at AI Clearing.
+Python implemented REST API handling a car database. Made as a part of recruitment process for the Software Developer Intern position at AI Clearing.
 ## Setting up locally
 1. Clone the repozitory
 2. (Optionally) initialize Python virtual enviroment
@@ -30,4 +30,7 @@ Python implemented REST API handling a car database. Made as a part of recruitme
     $ flask run
     ```
 ## Usage
-The API responds to requests specified in `task.txt` file.
+The API responds to requests specified in `task.txt` file. `tests.py` requires initialized database and the application running locally (if needed, change the `URL` constant).
+## Additional tools used
+- **SQLite Database viewer** - for assessing the database
+- **Postman** - for testing requests during development
