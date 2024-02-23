@@ -83,10 +83,14 @@ def popular():
         amount = request.json["amount"]
     except:
         abort(400)
+    if amount < 0:
+        abort(400)
     sql = text(f"SELECT carId, COUNT(*) FROM rate GROUP BY carId LIMIT {amount}")
     r = db.session.execute(sql).fetchall()
     output = []
     for i in r:
         car = Car.query.filter_by(id = int(i[0])).first()
+        if car is None:
+            break
         output.append({"id" : car.id, "make" : car.make, "model" : car.model, "numberOfRates" : i[1]})
     return {"cars" : output}
