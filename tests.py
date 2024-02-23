@@ -17,5 +17,23 @@ class APIStructureTests(TestCase):
         result = requests.get(f"{URL}doesNotExist")
         assert result.status_code == 404
 
+class postCarsTests(TestCase):
+    def testPostCarValidBody(self):
+        result = requests.post(f"{URL}cars", json = {"make" : "honda", "model" : "civic"})
+        resultBody = result.json()
+        assert resultBody["id"]
+
+    def testPostCarInvalidBody(self):
+        result = requests.post(f"{URL}cars", json = {"invalidKey" : "invalidValue"})
+        assert result.status_code == 400
+
+    def testPostCarInvalidMakeInvalidModel(self):
+        result = requests.post(f"{URL}cars", json = {"make" : "invalidMake", "model" : "invalidModel"})
+        assert result.status_code == 404
+
+    def testPostCarValidMakeInvalidModel(self):
+        result = requests.post(f"{URL}cars", json = {"make" : "honda", "model" : "invalidModel"})
+        assert result.status_code == 404
+
 if __name__ == "__main__":
     unittest.main()
