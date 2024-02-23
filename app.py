@@ -87,7 +87,7 @@ def popular():
             raise Exception
     except:
         abort(400)
-    sqlQuery = text(f"SELECT 'rate.carId', COUNT(*) FROM rate GROUP BY rate.carId LIMIT {amount}")
+    sqlQuery = text(f"SELECT rate.'carId', COUNT(*) FROM rate GROUP BY rate.'carId' LIMIT {amount}")
     r = db.session.execute(sqlQuery).fetchall()
     output = []
     for i in r:
