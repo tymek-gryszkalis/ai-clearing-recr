@@ -30,7 +30,7 @@ Python implemented REST API handling a car database. Made as a part of recruitme
     $ flask run
     ```
 ## Usage
-The API responds to requests specified in `task.txt` file. `tests.py` requires initialized database and the application running locally (if needed, change the `URL` constant). The application is hosted online under [here](https://ai-clearing-recr-784938d7e519.herokuapp.com/cars).
+The API responds to requests specified in `task.txt` file. `tests.py` requires initialized database and the application running locally (if needed, change the `URL` constant). The application is hosted online under [here](https://ai-clearing-recr-784938d7e519.herokuapp.com/).
 ## Additional tools used
 - **SQLite Database viewer** - for assessing the database
 - **Postman** - for testing requests during development
