@@ -18,10 +18,10 @@ class Car(db.Model):
 class Rate(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     value = db.Column(db.Integer)
-    carId = db.Column(db.Integer, db.ForeignKey("car.id"))
+    carid = db.Column(db.Integer, db.ForeignKey("car.id"))
 
     def __repr__(self):
-        return f"{self.carId}: {self.value}"
+        return f"{self.carid}: {self.value}"
 
 @app.route("/cars", methods = ["GET", "POST"])
 def cars():
@@ -50,7 +50,7 @@ def cars():
         cars = Car.query.all()
         output = []
         for car in cars:
-            rates = Rate.query.filter_by(carId = car.id).all()
+            rates = Rate.query.filter_by(carid = car.id).all()
             if len(rates) > 0:
                 avg = 0
                 for rate in rates:
@@ -74,7 +74,7 @@ def rate():
     except:
         abort(400)
     Car.query.get_or_404(carId)
-    newRate = Rate(value = value, carId = carId)
+    newRate = Rate(value = value, carid = carId)
     db.session.add(newRate)
     db.session.commit()
     return {"id" : newRate.id}
@@ -87,7 +87,7 @@ def popular():
             raise Exception
     except:
         abort(400)
-    sqlQuery = text(f"SELECT *, COUNT(*) FROM rate GROUP BY carId LIMIT {amount}")
+    sqlQuery = text(f"SELECT rate.carid, COUNT(*) FROM rate GROUP BY rate.carid LIMIT {amount}")
     r = db.session.execute(sqlQuery).fetchall()
     output = []
     for i in r:
