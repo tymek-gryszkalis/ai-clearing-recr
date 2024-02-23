@@ -50,7 +50,16 @@ def cars():
         cars = Car.query.all()
         output = []
         for car in cars:
-            output.append({"id" : car.id, "make" : car.make, "model" : car.model})
+            rates = Rate.query.filter_by(carId = car.id).all()
+            if len(rates) > 0:
+                avg = 0
+                for rate in rates:
+                    avg += rate.value
+                avg /= len(rates)
+                avg = round(avg, 2)
+            else:
+                avg = None
+            output.append({"id" : car.id, "make" : car.make, "model" : car.model, "avg" : avg})
         return {"cars" : output}
     
 @app.route("/rate", methods = ["POST"])
