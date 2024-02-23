@@ -20,6 +20,9 @@ class Rate(db.Model):
     value = db.Column(db.Integer)
     carId = db.Column(db.Integer, db.ForeignKey("car.id"))
 
+    def __repr__(self):
+        return f"{self.carId}: {self.value}"
+
 @app.route("/cars", methods = ["GET", "POST"])
 def cars():
     if request.method == "POST":
