@@ -67,5 +67,6 @@ def popular():
     r = db.session.execute(sql).fetchall()
     output = []
     for i in r:
-        output.append({"carId" : i[0], "numberOfRates" : i[1]})
+        car = Car.query.filter_by(id = int(i[0])).first()
+        output.append({"id" : car.id, "make" : car.make, "model" : car.model, "numberOfRates" : i[1]})
     return {"cars" : output}
