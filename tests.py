@@ -41,5 +41,25 @@ class getCarsTests(TestCase):
         resultBody = result.json()
         assert resultBody["cars"]
 
+class postRateTests(TestCase):
+    def testPostRateValidBody(self):
+        requests.post(f"{URL}cars", json = {"make" : "honda", "model" : "civic"})
+        result = requests.post(f"{URL}rate", json = {"id" : 1, "value" : 5})
+        resultBody = result.json()
+        assert resultBody["id"]
+
+    def testPostRateInvalidBody(self):
+        result = requests.post(f"{URL}rate", json = {"invalidKey" : "invalidValue"})
+        assert result.status_code == 400
+
+    def testPostRateInvalidCarId(self):
+        result = requests.post(f"{URL}rate", json = {"id" : -1, "value" : 5})
+        assert result.status_code == 404
+
+    def testPostRateInvalidValue(self):
+        requests.post(f"{URL}cars", json = {"make" : "honda", "model" : "civic"})
+        result = requests.post(f"{URL}rate", json = {"id" : 1, "value" : 6})
+        assert result.status_code == 400
+
 if __name__ == "__main__":
     unittest.main()
