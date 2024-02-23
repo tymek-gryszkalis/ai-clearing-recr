@@ -29,8 +29,10 @@ def cars():
         r = requests.get(url)
         modelExists = False
         for i in r.json()["Results"]:
-            if i["Model_Name"] == model:
+            if i["Model_Name"].lower() == model.lower():
                 modelExists = True
+                make = i["Make_Name"]
+                model = i["Model_Name"]
                 break
         if not modelExists:
             abort(404)
@@ -57,6 +59,10 @@ def rate():
 
 @app.route("/popular", methods = ["GET"])
 def popular():
-    sql = text("SELECT carId, COUNT(*) FROM rate GROUP BY carId LIMIT 1")
-    r = db.session.execute(sql).first()
-    return {"carId" : r[0], "numberOfRates" : r[1]}
+    amount = request.json["amount"]
+    sql = text(f"SELECT carId, COUNT(*) FROM rate GROUP BY carId LIMIT {amount}")
+    r = db.session.execute(sql).fetchall()
+    output = []
+    for i in r:
+        output.append({"carId" : i[0], "numberOfRates" : i[1]})
+    return {"cars" : output}
