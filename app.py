@@ -50,7 +50,7 @@ def cars():
         cars = Car.query.all()
         output = []
         for car in cars:
-            output.append({"make" : car.make, "model" : car.model})
+            output.append({"id" : car.id, "make" : car.make, "model" : car.model})
         return {"cars" : output}
     
 @app.route("/rate", methods = ["POST"])
