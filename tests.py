@@ -35,5 +35,11 @@ class postCarsTests(TestCase):
         result = requests.post(f"{URL}cars", json = {"make" : "honda", "model" : "invalidModel"})
         assert result.status_code == 404
 
+class getCarsTests(TestCase):
+    def testGetCars(self):
+        result = requests.get(f"{URL}cars")
+        resultBody = result.json()
+        assert resultBody["cars"]
+
 if __name__ == "__main__":
     unittest.main()
