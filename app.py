@@ -26,8 +26,11 @@ class Rate(db.Model):
 @app.route("/cars", methods = ["GET", "POST"])
 def cars():
     if request.method == "POST":
-        make = request.json["make"]
-        model = request.json["model"]
+        try:
+            make = request.json["make"]
+            model = request.json["model"]
+        except:
+            abort(400)
         url = f'https://vpic.nhtsa.dot.gov/api/vehicles/GetModelsForMake/{make}?format=json';
         r = requests.get(url)
         modelExists = False
@@ -52,8 +55,13 @@ def cars():
     
 @app.route("/rate", methods = ["POST"])
 def rate():
-    value = request.json["value"]
-    carId = request.json["id"]
+    try:
+        value = request.json["value"]
+        carId = request.json["id"]
+    except:
+        abort(400)
+    if not (value <= 5 and value >= 1):
+        abort(400)
     Car.query.get_or_404(carId)
     newRate = Rate(value = value, carId = carId)
     db.session.add(newRate)
@@ -62,7 +70,10 @@ def rate():
 
 @app.route("/popular", methods = ["GET"])
 def popular():
-    amount = request.json["amount"]
+    try:
+        amount = request.json["amount"]
+    except:
+        abort(400)
     sql = text(f"SELECT carId, COUNT(*) FROM rate GROUP BY carId LIMIT {amount}")
     r = db.session.execute(sql).fetchall()
     output = []
