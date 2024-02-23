@@ -1,0 +1,38 @@
+As we would like to get our eyes on your code, we have a recruitment task for you. This would help us evaluate your practical skills. Please note that we will discuss your solution only as part of this recruitment process.
+
+Please read the instructions carefully and fulfil the tasks completely. Good luck!
+
+
+
+We'd like you to build a simple REST API for us - a basic cars makes and models database interacting with external API. Here's full specification of endpoints that we'd like it to have:
+
+POST /cars
+* Request body should contain car make and model name
+* Based on this data, its existence should be checked here https://vpic.nhtsa.dot.gov/api/
+* If the car doesn't exist - return an error
+* If the car exists - it should be saved in the database
+
+POST /rate
+* Add a rate for a car from 1 to 5
+
+GET /cars
+* Should fetch list of all cars already present in application database with their current average rate
+
+GET /popular
+* Should return top cars already present in the database ranking based on number of rates (not average rate values, it's important!)
+
+
+
+Rules & hints
+
+1. Your goal is to implement REST API in Python, however you're free to use any third-party libraries and database of your choice, but please share your reasoning behind choosing them.
+
+2. At least basic tests of endpoints and their functionality are obligatory. Their exact scope and form is left up to you.
+
+3. The application's code should be kept in a public repository so that we can read it, pull it and build it ourselves. Remember to include README file or at least basic notes on application requirements and setup - we should be able to easily and quickly get it running.
+
+4. Written application must be hosted and publicly available for us online - we recommend Heroku.
+
+
+
+Please provide us with the solutions not later than 4 working days after you receive this email (23:59 CET). In case you need more time to provide the solutions - just let us know - but keep in mind - the sooner, the better!
