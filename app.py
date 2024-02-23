@@ -4,7 +4,7 @@ from sqlalchemy import text
 import requests, json
 
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = "postgres://bghehbrewxjpkj:ce2faf8be88f571a3e977788f4f37ccca17fed2845012a83c8949d4426e40722@ec2-44-206-204-65.compute-1.amazonaws.com:5432/devevfvcit6mud"
+app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://bghehbrewxjpkj:ce2faf8be88f571a3e977788f4f37ccca17fed2845012a83c8949d4426e40722@ec2-44-206-204-65.compute-1.amazonaws.com:5432/devevfvcit6mud"
 db = SQLAlchemy(app)
 
 class Car(db.Model):
