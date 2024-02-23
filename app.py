@@ -61,15 +61,17 @@ def cars():
                 avg = None
             output.append({"id" : car.id, "make" : car.make, "model" : car.model, "avg" : avg})
         return {"cars" : output}
+    else:
+        abort(500)
     
 @app.route("/rate", methods = ["POST"])
 def rate():
     try:
         value = request.json["value"]
         carId = request.json["id"]
+        if not (value <= 5 and value >= 1):
+            raise Exception
     except:
-        abort(400)
-    if not (value <= 5 and value >= 1):
         abort(400)
     Car.query.get_or_404(carId)
     newRate = Rate(value = value, carId = carId)
@@ -81,12 +83,12 @@ def rate():
 def popular():
     try:
         amount = request.json["amount"]
+        if amount < 0:
+            raise Exception
     except:
         abort(400)
-    if amount < 0:
-        abort(400)
-    sql = text(f"SELECT carId, COUNT(*) FROM rate GROUP BY carId LIMIT {amount}")
-    r = db.session.execute(sql).fetchall()
+    sqlQuery = text(f"SELECT carId, COUNT(*) FROM rate GROUP BY carId LIMIT {amount}")
+    r = db.session.execute(sqlQuery).fetchall()
     output = []
     for i in r:
         car = Car.query.filter_by(id = int(i[0])).first()
