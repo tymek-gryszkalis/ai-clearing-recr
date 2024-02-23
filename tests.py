@@ -61,5 +61,19 @@ class postRateTests(TestCase):
         result = requests.post(f"{URL}rate", json = {"id" : 1, "value" : 6})
         assert result.status_code == 400
 
+class getPopularTests(TestCase):
+    def testGetPopularValidBody(self):
+        result = requests.get(f"{URL}popular", json = {"amount" : 1})
+        resultBody = result.json()
+        assert resultBody["cars"]
+
+    def testGetPopularInvalidBody(self):
+        result = requests.post(f"{URL}rate", json = {"invalidKey" : "invalidValue"})
+        assert result.status_code == 400
+
+    def testGetPopularInvalidAmount(self):
+        result = requests.get(f"{URL}popular", json = {"amount" : -1})
+        assert result.status_code == 400
+        
 if __name__ == "__main__":
     unittest.main()
